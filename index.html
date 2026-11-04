@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La Trattoria · Pizzería artesana en O Barco de Valdeorras</title>
+<meta name="description" content="Pizzas y focaccias artesanas con masa madre en la rúa San Mauro, O Barco de Valdeorras. Pide a domicilio o para llevar desde la carta, o reserva mesa por WhatsApp.">
+<meta name="theme-color" content="#1f3a2a">
+<meta property="og:title" content="La Trattoria · Pizza artesana en O Barco">
+<meta property="og:description" content="Masa madre, harina 00 y aceite de oliva virgen extra. Carta, pedidos y reservas por WhatsApp.">
+<meta property="og:image" content="img/cuatro-quesos.webp">
+<link rel="icon" href="img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400;500;600;700;800&family=Yellowtail&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+
+<div class="bandera" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#inicio" aria-label="La Trattoria, inicio">
+    <img src="img/logo.webp" alt="" width="42" height="42">
+    <span class="marca">La Trattoria</span>
+  </a>
+  <nav class="nav-links" aria-label="Secciones">
+    <a href="#carta">Carta</a>
+    <a href="pedir.html">Pedir a domicilio</a>
+    <a href="#local">El local</a>
+    <a href="#llegar">Horario</a>
+  </nav>
+  <span class="estado" data-estado><i></i><span>Consultando horario…</span></span>
+  <a class="btn btn-rojo btn-sm" href="#reservar">Reservar</a>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <picture>
+    <source media="(max-width: 700px)" srcset="img/cuatro-quesos-alto-sm.webp 720w, img/cuatro-quesos-alto.webp 1080w">
+    <img class="hero-img" src="img/cuatro-quesos.webp" alt="Pizza cuatro quesos con albahaca en una mesa de La Trattoria" fetchpriority="high">
+  </picture>
+  <div class="hero-shade" aria-hidden="true"></div>
+  <div class="hero-in">
+    <p class="eyebrow"><span class="mini-bandera" aria-hidden="true"></span> Pizzería · Bar · Casco antiguo de O Barco</p>
+    <h1>Masa madre,<br>harina 00<br><em>y paciencia.</em></h1>
+    <p class="hero-sub">Pizzas y focaccias artesanas según la tradición napolitana, en la rúa San Mauro. Te las llevamos a casa, para recoger o para comer aquí.</p>
+    <div class="hero-cta">
+      <a class="btn btn-rojo" href="pedir.html">Pedir a domicilio</a>
+      <a class="btn btn-claro" href="#reservar">Reservar mesa</a>
+    </div>
+    <a class="hero-nota" href="#resenas">
+      <span class="stars" aria-hidden="true">★★★★<span class="media">★</span></span>
+      <b>4,3</b> <span>· 232 reseñas en Google</span>
+    </a>
+  </div>
+</section>
+
+<!-- CINTA -->
+<div class="cinta" aria-hidden="true">
+  <div class="cinta-track">
+    <span>Margherita</span><span>Focaccia rústica</span><span>Calzone</span><span>Diávola</span><span>Capricciosa</span><span>Carbonara</span><span>Cuatro quesos</span><span>Trattoria</span>
+    <span>Margherita</span><span>Focaccia rústica</span><span>Calzone</span><span>Diávola</span><span>Capricciosa</span><span>Carbonara</span><span>Cuatro quesos</span><span>Trattoria</span>
+  </div>
+</div>
+
+<!-- LA MASA -->
+<section class="sec sec-papel" id="masa">
+  <div class="wrap masa">
+    <div class="masa-txt">
+      <p class="kicker">Il segreto</p>
+      <h2>Todo empieza <em>en la masa</em></h2>
+      <p class="lead">Nuestras pizzas y focaccias se elaboran a mano, según la antigua tradición napolitana. Sin prisas: la masa fermenta con masa madre hasta que está lista.</p>
+      <ul class="pilares">
+        <li><b>Harina tipo 00</b><span>La de las pizzerías de Nápoles: masa fina, ligera y con borde que cruje.</span></li>
+        <li><b>Masa madre</b><span>Fermentado natural, más digestivo y con más sabor.</span></li>
+        <li><b>Aceite de oliva virgen extra</b><span>En la masa y al salir del horno.</span></li>
+        <li><b>A tu gusto</b><span>¿Media de una y media de otra? Se puede. Y combinamos ingredientes como quieras.</span></li>
+      </ul>
+    </div>
+    <figure class="masa-foto reveal">
+      <img src="img/carta.webp" srcset="img/carta-sm.webp 720w, img/carta.webp 1080w" sizes="(max-width: 800px) 100vw, 50vw" alt="La carta de La Trattoria: pizzas y focaccias artesanas con harina 00 y masa madre" loading="lazy">
+      <figcaption>Así lo pone en nuestra carta.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- IMPRESCINDIBLES -->
+<section class="sec sec-crema" id="imprescindibles">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker">Los imprescindibles</p>
+      <h2>Lo que <em>más se pide</em></h2>
+      <p class="lead">Lo que nuestros clientes repiten, según sus reseñas en Google.</p>
+    </div>
+    <div class="bento bento-3">
+      <article class="plato plato-xl reveal">
+        <img src="img/spaghetti-carbonara.webp" srcset="img/spaghetti-carbonara-sm.webp 720w, img/spaghetti-carbonara.webp 1440w" sizes="(max-width: 800px) 100vw, 60vw" alt="Spaghetti carbonara con beicon y parmigiano" loading="lazy">
+        <div class="plato-txt">
+          <span class="tag">Muy pedida</span>
+          <h3>Spaghetti carbonara</h3>
+          <p>Con beicon y lluvia de parmigiano.</p>
+        </div>
+      </article>
+      <article class="plato reveal">
+        <img src="img/gnocchi-burrata-sm.webp" alt="Gnocchi con pesto genovés, tomate italiano y una burrata en el centro" loading="lazy">
+        <div class="plato-txt">
+          <span class="tag">Novedad</span>
+          <h3>Gnocchi con burrata</h3>
+          <p>Pesto genovés, tomate italiano y burrata cremosa en el centro.</p>
+        </div>
+      </article>
+      <article class="plato reveal">
+        <img src="img/cuatro-quesos-sm.webp" alt="Pizza cuatro quesos con hojas de albahaca" loading="lazy">
+        <div class="plato-txt">
+          <span class="tag">Mucho queso</span>
+          <h3>Cuatro quesos</h3>
+          <p>Mozzarella, queso azul, parmigiano y emmental.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CARTA -->
+<section class="sec sec-pizarra" id="carta">
+  <div class="wrap">
+    <div class="sec-head sec-head-claro">
+      <p class="kicker">La carta</p>
+      <h2>Elige antes <em>de venir</em></h2>
+      <p class="lead">Toda la carta con sus precios. ¿Te apetece en casa? Haz tu pedido en nuestra página de pedidos y te lo llevamos.</p>
+      <a class="btn btn-rojo carta-cta" href="pedir.html">Hacer mi pedido</a>
+    </div>
+
+    <div class="carta-tools">
+      <div class="tabs" role="tablist" aria-label="Categorías de la carta" data-tabs></div>
+      <label class="buscar">
+        <span class="sr">Buscar en la carta</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input type="search" placeholder="Buscar: jamón, atún, queso azul…" data-buscar>
+      </label>
+    </div>
+
+    <div class="tamanos">
+      <span><b>M</b> Mediana · perfecta para uno</span>
+      <span><b>F</b> Familiar · para compartir entre dos</span>
+    </div>
+
+    <div class="carta" data-carta aria-live="polite"></div>
+
+    <div class="carta-extra">
+      <div>
+        <h3>¿Sin gluten?</h3>
+        <p>Pizza sin gluten con los ingredientes que elijas. El precio va según los ingredientes: pregúntanos.</p>
+      </div>
+      <a class="btn btn-claro btn-sm" data-wa="¡Hola, La Trattoria! Quería preguntar por la pizza sin gluten." href="#" target="_blank" rel="noopener">Preguntar</a>
+    </div>
+    <div class="carta-fin">
+      <a class="btn btn-rojo" href="pedir.html">Pedir a domicilio o para recoger</a>
+    </div>
+  </div>
+</section>
+
+<!-- PARA LLEVAR -->
+<section class="sec sec-papel" id="pedir">
+  <div class="wrap pedir">
+    <figure class="pedir-foto reveal">
+      <img src="img/margherita-caja.webp" srcset="img/margherita-caja-sm.webp 720w, img/margherita-caja.webp 1440w" sizes="(max-width: 800px) 100vw, 45vw" alt="Pizza margherita recién hecha en su caja para llevar" loading="lazy">
+    </figure>
+    <div class="pedir-txt">
+      <p class="kicker">A domicilio y para llevar</p>
+      <h2>Pide desde aquí, <em>te la llevamos a casa</em></h2>
+      <p class="lead">Sin apps de reparto ni registrarte. Eliges en la carta, nos llega el pedido escrito por WhatsApp con tu dirección y te confirmamos la hora de entrega.</p>
+      <ol class="pasos">
+        <li><b>1</b><span>Toca <b>+</b> en lo que quieras: pizza mediana o familiar, focaccias, pasta…</span></li>
+        <li><b>2</b><span>Pon tu dirección, tu teléfono, la hora y cómo vas a pagar.</span></li>
+        <li><b>3</b><span>Envíalo por WhatsApp y te confirmamos el pedido y la hora de entrega.</span></li>
+      </ol>
+      <p class="pedir-zona" data-zona></p>
+      <div class="pedir-cta">
+        <a class="btn btn-rojo" href="pedir.html">Pedir a domicilio</a>
+        <a class="btn btn-linea" href="tel:+34988326321">O llama al 988 32 63 21</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CELEBRACIONES -->
+<section class="celebra">
+    <div class="celebra-in wrap">
+    <p class="kicker">Cumpleaños, eventos y momentos especiales</p>
+    <h2>Celebramos<br><em>lo que importa.</em></h2>
+    <p>Ambiente acogedor y familiar, menús personalizados para cada celebración y atención cercana. Tú solo preocúpate de disfrutar: nosotros del resto.</p>
+    <a class="btn btn-rojo" data-wa="¡Hola, La Trattoria! Quiero organizar una celebración. Somos unas __ personas, para el día __." href="#" target="_blank" rel="noopener">Cuéntanos tu celebración</a>
+  </div>
+</section>
+
+<!-- RESERVAR -->
+<section class="sec sec-crema" id="reservar">
+  <div class="wrap reserva">
+    <div class="reserva-txt">
+      <p class="kicker">Reservar mesa</p>
+      <h2>Tu mesa, <em>en 30 segundos</em></h2>
+      <p class="lead">Elige cuántos sois, el día y la hora. Te sale el mensaje hecho para WhatsApp y te confirmamos.</p>
+      <ul class="check">
+        <li>Sin registrarte en ninguna app</li>
+        <li>Sin comisiones por mesa</li>
+        <li>¿Grupo o cumpleaños? Dínoslo en la nota</li>
+        <li>¿Prefieres llamar? <a href="tel:+34988326321">988 32 63 21</a></li>
+      </ul>
+    </div>
+    <form class="reserva-form" data-reserva novalidate>
+      <div class="presets">
+        <button type="button" class="chip" data-preset="hoy">Esta noche</button>
+        <button type="button" class="chip" data-preset="finde">Comida del finde</button>
+      </div>
+      <fieldset>
+        <legend>¿Cuántos sois?</legend>
+        <div class="personas" data-personas></div>
+      </fieldset>
+      <fieldset>
+        <legend>¿Qué día?</legend>
+        <div class="dias" data-dias></div>
+      </fieldset>
+      <fieldset>
+        <legend>¿A qué hora?</legend>
+        <div class="horas" data-horas></div>
+      </fieldset>
+      <div class="campos">
+        <label><span class="lbl">Tu nombre</span><input name="nombre" autocomplete="given-name" placeholder="Ej.: Lucía" required></label>
+        <label><span class="lbl">Nota <small>(opcional)</small></span><input name="nota" placeholder="Terraza, trona, cumpleaños…"></label>
+      </div>
+      <div class="resumen" data-resumen aria-live="polite"></div>
+      <button class="btn btn-wa btn-block" type="submit">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.4-.3Z"/></svg>
+        Enviar reserva por WhatsApp
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- RESEÑAS -->
+<section class="sec sec-pizarra" id="resenas">
+  <div class="wrap">
+    <div class="resenas-head">
+      <div class="nota-grande">
+        <b>4,3</b>
+        <span class="stars" aria-hidden="true">★★★★<span class="media">★</span></span>
+        <span>232 reseñas en Google</span>
+      </div>
+      <h2>Lo que dicen <em>quienes ya vinieron</em></h2>
+    </div>
+    <div class="resenas" data-resenas></div>
+    <div class="resenas-nav">
+      <button type="button" class="flecha" data-res-prev aria-label="Anterior">←</button>
+      <button type="button" class="flecha" data-res-next aria-label="Siguiente">→</button>
+    </div>
+  </div>
+</section>
+
+<!-- EL LOCAL -->
+<section class="sec sec-papel" id="local">
+  <div class="wrap local local-solo">
+    <div class="local-txt">
+      <p class="kicker">El local</p>
+      <h2>Un rincón de Italia <em>en el casco viejo</em></h2>
+      <p class="lead">En la rúa San Mauro, en pleno casco antiguo de O Barco. Terraza en la calle, barra para tomar algo y un comedor tranquilo para cenar sin prisa. Y si vienes haciendo el Camino de Invierno, aquí hay pizza.</p>
+      <div class="chips">
+        <span>Terraza</span><span>A domicilio</span><span>Para llevar</span><span>Celebraciones</span><span>Sin gluten</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO LLEGAR -->
+<section class="sec sec-crema" id="llegar">
+  <div class="wrap llegar">
+    <div class="horario-card">
+      <p class="kicker">Horario</p>
+      <h2>Cuándo <em>venir</em></h2>
+      <span class="estado estado-card" data-estado><i></i><span>Consultando horario…</span></span>
+      <table class="horario" data-horario></table>
+      <p class="horario-nota">Martes cerrado por descanso.</p>
+      <div class="datos">
+        <a href="https://maps.google.com/?q=La+Trattoria+R%C3%BAa+San+Mauro+29+O+Barco" target="_blank" rel="noopener">
+          <b>Rúa San Mauro, 29</b><br>32300 O Barco de Valdeorras
+        </a>
+        <a href="tel:+34988326321"><b>988 32 63 21</b><br>Llamar ahora</a>
+      </div>
+    </div>
+    <div class="mapa">
+      <iframe title="Mapa de La Trattoria en O Barco de Valdeorras" src="https://www.google.com/maps?q=La+Trattoria,+R%C3%BAa+San+Mauro+29,+32300+O+Barco,+Ourense&hl=es&z=17&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <a class="btn btn-verde" href="https://maps.google.com/?q=La+Trattoria+R%C3%BAa+San+Mauro+29+O+Barco" target="_blank" rel="noopener">Cómo llegar</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="pie">
+  <div class="cuadros" aria-hidden="true"></div>
+  <div class="wrap pie-in">
+    <div class="pie-brand">
+      <img src="img/logo.webp" alt="" width="88" height="88" loading="lazy">
+      <div>
+        <p class="marca marca-lg">La Trattoria</p>
+        <p>Auténtica cocina italiana en O Barco de Valdeorras.</p>
+      </div>
+    </div>
+    <div class="pie-links">
+      <a href="https://www.instagram.com/latrattoria_valdeorras/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.facebook.com/share/1HyJ8bmnWz/" target="_blank" rel="noopener">Facebook</a>
+      <a href="tel:+34988326321">988 32 63 21</a>
+      <a href="pedir.html">Pedir a domicilio</a>
+      <a href="#reservar">Reservar</a>
+    </div>
+    <p class="pie-legal">© <span data-year></span> La Trattoria · O Barco de Valdeorras (Ourense) · <span class="firma">Web hecha por <a href="https://widy.agency" target="_blank" rel="noopener">Widy</a></span></p>
+  </div>
+</footer>
+
+<!-- Barra móvil -->
+<nav class="barra-movil" aria-label="Acciones rápidas">
+  <a href="tel:+34988326321">Llamar</a>
+  <a href="#reservar">Reservar</a>
+  <a href="pedir.html" class="on">Pedir a casa</a>
+</nav>
+
+<script src="datos.js" defer></script>
+<script src="script.js" defer></script>
+</body>
+</html>
