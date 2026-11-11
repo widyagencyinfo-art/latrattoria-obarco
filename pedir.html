@@ -13,6 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400;500;600;700;800;900&family=Yellowtail&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/portada-movil.webp" media="(max-width: 959px)">
 <link rel="stylesheet" href="pedir.css">
 </head>
 <body>
@@ -32,7 +33,10 @@
 <main class="tienda">
 
   <div class="portada">
-    <img src="img/cuatro-quesos-sm.webp" srcset="img/cuatro-quesos-sm.webp 720w, img/cuatro-quesos.webp 1440w" sizes="(max-width: 960px) 100vw, 760px" alt="Pizza cuatro quesos de La Trattoria">
+    <picture>
+      <source media="(max-width: 959px)" srcset="img/portada-movil.webp">
+      <img src="img/cuatro-quesos.webp" alt="Pizza cuatro quesos de La Trattoria" fetchpriority="high">
+    </picture>
     <div class="portada-txt">
       <span class="script">Pizzería artesana</span>
       <h1>La Trattoria</h1>
@@ -70,13 +74,12 @@
   </div>
 
   <section class="como" aria-label="Cómo funciona">
-    <h2 class="como-tit">Pedir es <em>como siempre</em>, pero desde el móvil</h2>
+    <h2 class="como-tit">Pides aquí, <em>pagas al recibirlo</em></h2>
     <ol class="como-pasos">
-      <li><b>1</b><span><strong>Elige en la carta</strong>Pizza mediana o familiar, focaccias, pasta…</span></li>
-      <li><b>2</b><span><strong>Te lo llevamos</strong><span data-como-2>Lo preparamos al momento y lo sigues en directo.</span></span></li>
-      <li><b>3</b><span><strong>Pagas al recibirlo</strong>Al repartidor, en efectivo o con tarjeta. Nada por adelantado.</span></li>
+      <li><b>1</b><strong>Eliges</strong><span>en la carta</span></li>
+      <li><b>2</b><strong data-como-2t>Te lo llevamos</strong><span data-como-2>y lo sigues en directo</span></li>
+      <li><b>3</b><strong>Pagas al recibirlo</strong><span>efectivo o tarjeta</span></li>
     </ol>
-    <p class="como-tip">½ ¿Mitad y mitad o sin algún ingrediente? Pídelo en la nota del pedido.</p>
   </section>
 
   <label class="buscar">

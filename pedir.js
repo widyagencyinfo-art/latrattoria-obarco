@@ -218,7 +218,8 @@
     $('[data-pago-bloque]').hidden = !casa;
     $('[data-pago-local]').hidden = casa;
     $('[data-enviar-sub]').textContent = casa ? 'Pagas al repartidor al recibirlo' : 'Pagas en el local al recogerlo';
-    $('[data-como-2]').textContent = casa ? 'Lo preparamos al momento y te lo llevamos a casa.' : 'Lo preparamos y te avisamos cuando esté listo.';
+    $('[data-como-2t]').textContent = casa ? 'Te lo llevamos' : 'Lo recoges';
+    $('[data-como-2]').textContent = casa ? 'y lo sigues en directo' : 'te avisamos al estar listo';
     $('[data-cambio-wrap]').hidden = !(casa && pago === 'Efectivo');
     // resumen
     const tot = euros(total) + (casa && D.envio == null ? ' + envío' : '');
