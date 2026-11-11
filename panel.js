@@ -54,30 +54,71 @@
   let lock = null;
   async function pantallaEncendida() { try { if ('wakeLock' in navigator && !document.hidden) lock = await navigator.wakeLock.request('screen'); } catch (e) { /* no soportado */ } }
 
-  /* ---------- entrada con PIN ---------- */
-  let tecleado = '';
-  function pintarPin() { $$('[data-pin-puntos] i').forEach((i, n) => i.classList.toggle('on', n < tecleado.length)); }
-  $('[data-teclado]').addEventListener('click', async (e) => {
-    const b = e.target.closest('button'); if (!b) return;
-    if (b.hasAttribute('data-borrar')) tecleado = tecleado.slice(0, -1);
-    else if (tecleado.length < 6) tecleado += b.textContent;
-    $('[data-login-error]').textContent = '';
-    pintarPin();
-    if (tecleado.length === 6) {
-      PIN = tecleado; tecleado = '';
-      const ok = await cargar(true);
-      if (!ok) { PIN = null; pintarPin(); }
-    }
+  /* ---------- entrada: la primera vez (con el enlace de activación) Alfredo crea su contraseña ---------- */
+  let ACTIVAR = (location.hash.match(/activar=([a-z0-9]+)/i) || [])[1] || null;
+  const clave = $('[data-clave]'), clave2 = $('[data-clave2]');
+  function modoLogin() {
+    const nueva = !!ACTIVAR;
+    $('[data-login-tit]').textContent = nueva ? 'Crea tu contraseña' : 'Panel de pedidos';
+    $('[data-login-sub]').textContent = nueva ? 'Es la primera vez que entras. Elige una contraseña de al menos 6 letras o números.' : 'Escribe tu contraseña';
+    $('[data-repetir-wrap]').hidden = !nueva;
+    clave.setAttribute('autocomplete', nueva ? 'new-password' : 'current-password');
+    $('[data-clave-et]').textContent = nueva ? 'Contraseña nueva' : 'Contraseña';
+    $('[data-login-boton]').textContent = nueva ? 'Guardar y entrar' : 'Entrar';
+  }
+  $('[data-ver-clave]').addEventListener('click', (e) => {
+    const ver = clave.type === 'password';
+    clave.type = clave2.type = ver ? 'text' : 'password';
+    e.currentTarget.textContent = ver ? 'Ocultar' : 'Ver';
   });
-  addEventListener('keydown', (e) => {
-    if ($('[data-login]').hidden) return;
-    if (/^\d$/.test(e.key)) { const b = $$('[data-teclado] button').find((x) => x.textContent === e.key); b?.click(); }
-    if (e.key === 'Backspace') $('[data-borrar]').click();
+  const errLogin = (t) => { $('[data-login-error]').textContent = t; };
+  $('[data-login-form]').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    desbloquear();
+    const c = clave.value.trim();
+    const boton = $('[data-login-boton]');
+    if (ACTIVAR) {
+      if (c.length < 6) { errLogin('Tiene que tener al menos 6 letras o números.'); clave.focus(); return; }
+      if (c !== clave2.value.trim()) { errLogin('Las dos contraseñas no coinciden.'); clave2.focus(); return; }
+      boton.disabled = true; errLogin('');
+      let r = null;
+      try { r = await api('trattoria_activar', { codigo: ACTIVAR, clave: c }); } catch (er) { r = null; }
+      boton.disabled = false;
+      if (!r) { errLogin('Sin conexión. Prueba otra vez.'); return; }
+      if (r.error === 'codigo') { ACTIVAR = null; history.replaceState(null, '', location.pathname); modoLogin(); errLogin('Este enlace ya se usó. Entra con tu contraseña o pídenos uno nuevo.'); return; }
+      if (r.error) { errLogin(r.error === 'espera' ? 'Demasiados intentos. Espera unos minutos.' : 'Tiene que tener al menos 6 letras o números.'); return; }
+      ACTIVAR = null; history.replaceState(null, '', location.pathname);
+      PIN = c; clave.value = clave2.value = '';
+      await cargar(true);
+      toast('✓ Contraseña guardada');
+      return;
+    }
+    if (!c) { errLogin('Escribe tu contraseña.'); clave.focus(); return; }
+    boton.disabled = true; errLogin('');
+    PIN = c;
+    const ok = await cargar(true);
+    boton.disabled = false;
+    if (ok) clave.value = ''; else PIN = null;
   });
   function mostrarLogin(msg) {
     $('[data-app]').hidden = true; $('[data-login]').hidden = false;
-    $('[data-login-error]').textContent = msg || ''; tecleado = ''; pintarPin();
+    modoLogin(); errLogin(msg || '');
+    setTimeout(() => clave.focus(), 50);
   }
+
+  // cambiar la contraseña desde Ajustes
+  $('[data-cambiar-clave]').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const n = $('[data-nueva]').value.trim(), n2 = $('[data-nueva2]').value.trim(), err = $('[data-cambiar-error]');
+    if (n.length < 6) { err.textContent = 'Al menos 6 letras o números.'; return; }
+    if (n !== n2) { err.textContent = 'Las dos no coinciden.'; return; }
+    let r = null;
+    try { r = await api('trattoria_cambiar_clave', { actual: PIN, nueva: n }); } catch (er) { r = null; }
+    if (!r || r.error) { err.textContent = !r ? 'Sin conexión. Prueba otra vez.' : 'No se ha podido cambiar.'; return; }
+    PIN = n; LS.set('trattoria-pin', PIN);
+    $('[data-nueva]').value = $('[data-nueva2]').value = ''; err.textContent = '';
+    toast('✓ Contraseña cambiada');
+  });
   $('[data-salir]').addEventListener('click', () => { LS.del('trattoria-pin'); PIN = null; cerrarAjustes(); mostrarLogin(); });
 
   /* ---------- servidor ---------- */
@@ -87,11 +128,11 @@
     if (!PIN) { mostrarLogin(); return false; }
     let r;
     try { r = await panel('pedidos', DIA ? { dia: DIA } : {}); } catch (e) {
-      $('[data-aviso-red]').hidden = !DATOS; if (desdeLogin) $('[data-login-error]').textContent = 'Sin conexión. Prueba otra vez.';
+      $('[data-aviso-red]').hidden = !DATOS; if (desdeLogin) errLogin('Sin conexión. Prueba otra vez.');
       return false;
     }
     $('[data-aviso-red]').hidden = true;
-    if (r && r.error === 'pin') { LS.del('trattoria-pin'); mostrarLogin(desdeLogin ? 'PIN incorrecto' : ''); return false; }
+    if (r && r.error === 'pin') { LS.del('trattoria-pin'); mostrarLogin(desdeLogin ? 'Contraseña incorrecta' : ''); return false; }
     LS.set('trattoria-pin', PIN);
     DATOS = r;
     if ($('[data-app]').hidden) { $('[data-login]').hidden = true; $('[data-app]').hidden = false; pantallaEncendida(); }
@@ -377,5 +418,5 @@
   setInterval(() => { $$('[data-hace]').forEach((el) => { el.textContent = `${hora(el.dataset.hace)} · ${haceTxt(el.dataset.hace)}`; }); }, 30000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) { pantallaEncendida(); if (PIN) cargar(); } });
 
-  if (PIN) cargar(); else mostrarLogin();
+  if (ACTIVAR) mostrarLogin(); else if (PIN) cargar(); else mostrarLogin();
 })();

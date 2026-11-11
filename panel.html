@@ -22,16 +22,23 @@
 <section class="login" data-login hidden>
   <img src="img/logo.webp" alt="" width="84" height="84">
   <span class="login-script">La Trattoria</span>
-  <h1>Panel de pedidos</h1>
-  <p>Escribe tu PIN de 6 cifras</p>
-  <div class="pin-puntos" data-pin-puntos><i></i><i></i><i></i><i></i><i></i><i></i></div>
-  <p class="login-error" data-login-error aria-live="assertive"></p>
-  <div class="teclado" data-teclado>
-    <button type="button">1</button><button type="button">2</button><button type="button">3</button>
-    <button type="button">4</button><button type="button">5</button><button type="button">6</button>
-    <button type="button">7</button><button type="button">8</button><button type="button">9</button>
-    <span></span><button type="button">0</button><button type="button" data-borrar aria-label="Borrar">⌫</button>
-  </div>
+  <h1 data-login-tit>Panel de pedidos</h1>
+  <p data-login-sub>Escribe tu contraseña</p>
+  <form class="login-form" data-login-form novalidate>
+    <input class="sr" type="text" name="username" value="La Trattoria · pedidos" autocomplete="username" tabindex="-1" aria-hidden="true" readonly>
+    <label class="login-campo">
+      <span data-clave-et>Contraseña</span>
+      <span class="login-input"><input type="password" name="password" data-clave autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="go">
+      <button type="button" class="login-ver" data-ver-clave aria-label="Ver la contraseña">Ver</button></span>
+    </label>
+    <label class="login-campo" data-repetir-wrap hidden>
+      <span>Repítela</span>
+      <span class="login-input"><input type="password" data-clave2 autocomplete="new-password" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done"></span>
+    </label>
+    <p class="login-error" data-login-error aria-live="assertive"></p>
+    <button type="submit" class="login-boton" data-login-boton>Entrar</button>
+  </form>
+  <p class="login-pie" data-login-pie>Se queda guardada en este móvil: no tendrás que volver a ponerla.</p>
 </section>
 
 <!-- panel -->
@@ -83,6 +90,17 @@
     <section>
       <h3>Días anteriores</h3>
       <div class="dias" data-dias></div>
+    </section>
+    <section>
+      <h3>Contraseña</h3>
+      <p class="ayuda">Para cambiarla, escribe la nueva dos veces.</p>
+      <form class="cambiar-clave" data-cambiar-clave novalidate>
+        <input class="sr" type="text" name="username" value="La Trattoria · pedidos" autocomplete="username" tabindex="-1" aria-hidden="true" readonly>
+        <input type="password" data-nueva placeholder="Contraseña nueva" autocomplete="new-password" autocapitalize="off">
+        <input type="password" data-nueva2 placeholder="Repítela" autocomplete="new-password" autocapitalize="off">
+        <p class="cambiar-error" data-cambiar-error aria-live="polite"></p>
+        <button type="submit" class="b-gris">Guardar contraseña nueva</button>
+      </form>
     </section>
     <section>
       <h3>Este aparato</h3>
