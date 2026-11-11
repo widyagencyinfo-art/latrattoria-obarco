@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pedir a domicilio · La Trattoria, O Barco de Valdeorras</title>
 <meta name="description" content="Pide pizzas y focaccias de La Trattoria a domicilio o para recoger en O Barco de Valdeorras. Eliges en la carta, nos llega tu pedido al momento y lo sigues en directo.">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#1f3a2a">
 <meta property="og:title" content="Pide a domicilio · La Trattoria">
 <meta property="og:description" content="Pizzas y focaccias artesanas a domicilio en O Barco de Valdeorras.">
 <meta property="og:image" content="img/cuatro-quesos.webp">
 <link rel="icon" href="img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400;500;600;700;800;900&family=Yellowtail&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="pedir.css">
 </head>
 <body>
@@ -33,14 +33,17 @@
 
   <div class="portada">
     <img src="img/cuatro-quesos-sm.webp" srcset="img/cuatro-quesos-sm.webp 720w, img/cuatro-quesos.webp 1440w" sizes="(max-width: 960px) 100vw, 760px" alt="Pizza cuatro quesos de La Trattoria">
+    <div class="portada-txt">
+      <span class="script">Pizzería artesana</span>
+      <h1>La Trattoria</h1>
+      <p>Pizzas y focaccias · O Barco de Valdeorras</p>
+    </div>
   </div>
 
   <button type="button" class="en-curso" data-en-curso hidden><i></i><span data-en-curso-txt>Tu pedido</span><b>Ver ›</b></button>
 
   <section class="ficha">
     <img class="ficha-logo" src="img/logo.webp" alt="" width="76" height="76">
-    <h1>La Trattoria</h1>
-    <p class="ficha-tipo">Pizzería artesana · Focaccias · Pasta</p>
     <div class="ficha-datos">
       <span class="dato"><b>★ 4,3</b> (232 en Google)</span>
       <span class="dato estado" data-estado><i></i><span>Consultando horario…</span></span>
@@ -66,11 +69,15 @@
     <span>Llámanos al <a href="tel:+34988326321">988 32 63 21</a> y te lo preparamos.</span>
   </div>
 
-  <div class="ventajas" aria-label="Ventajas de pedir aquí">
-    <div class="ventaja"><span aria-hidden="true">🍕</span><p><b>Pide directo al restaurante</b>Sin apps de reparto ni comisiones</p></div>
-    <div class="ventaja"><span aria-hidden="true">½</span><p><b>¿Mitad y mitad?</b>Pídelo en la nota del pedido</p></div>
-    <div class="ventaja"><span aria-hidden="true">🌾</span><p><b>Masa madre y harina 00</b>Hecha a mano cada día</p></div>
-  </div>
+  <section class="como" aria-label="Cómo funciona">
+    <h2 class="como-tit">Pedir es <em>como siempre</em>, pero desde el móvil</h2>
+    <ol class="como-pasos">
+      <li><b>1</b><span><strong>Elige en la carta</strong>Pizza mediana o familiar, focaccias, pasta…</span></li>
+      <li><b>2</b><span><strong>Te lo llevamos</strong><span data-como-2>Lo preparamos al momento y lo sigues en directo.</span></span></li>
+      <li><b>3</b><span><strong>Pagas al recibirlo</strong>Al repartidor, en efectivo o con tarjeta. Nada por adelantado.</span></li>
+    </ol>
+    <p class="como-tip">½ ¿Mitad y mitad o sin algún ingrediente? Pídelo en la nota del pedido.</p>
+  </section>
 
   <label class="buscar">
     <span class="sr">Buscar en la carta</span>
@@ -120,9 +127,15 @@
     </div>
 
     <div class="bloque" data-pago-bloque>
-      <h3>Pago <small>al recibir el pedido</small></h3>
+      <h3>¿Cómo pagarás al repartidor?</h3>
+      <p class="pago-nota"><span aria-hidden="true">🤝</span><span><b>No pagas nada ahora.</b> Pagas cuando te llegue el pedido, como siempre.</span></p>
       <div class="pagos" role="radiogroup" aria-label="Forma de pago" data-pagos></div>
       <label class="campo" data-cambio-wrap><span>¿Con cuánto pagas? <small>para llevar el cambio</small></span><input data-f="cambio" inputmode="decimal" placeholder="Ej.: 50 €"></label>
+    </div>
+
+    <div class="bloque" data-pago-local hidden>
+      <h3>Pago</h3>
+      <p class="pago-nota"><span aria-hidden="true">🤝</span><span><b>No pagas nada ahora.</b> Pagas en el local al recogerlo, en efectivo o con tarjeta.</span></p>
     </div>
 
     <div class="bloque">
@@ -139,7 +152,7 @@
   <div class="carrito-pie">
     <p class="error" data-error aria-live="assertive"></p>
     <button type="button" class="boton-pedir" data-enviar>
-      <span data-enviar-txt>Hacer pedido</span><b data-total-boton>0,00 €</b>
+      <span class="boton-pedir-txt"><span data-enviar-txt>Hacer pedido</span><small data-enviar-sub>Pagas al recibirlo</small></span><b data-total-boton>0,00 €</b>
     </button>
   </div>
 </aside>

@@ -4,6 +4,9 @@
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const D = DOMICILIO;
   const DESTACADOS = ['Cuatro quesos', 'Focaccia cuatro quesos', 'Regina Margherita', 'Pollo', 'Spaghetti carbonara', 'Gnocchi con burrata'];
+  // inicial para los platos sin foto (sin «Focaccia», «Spaghetti», «Tabla de»…)
+  const inicial = (x) => x.n.replace(/^(focaccia|spaghetti|tabla de|tabla)\s+/i, '').charAt(0).toUpperCase();
+  const monograma = (x, cls) => `<span class="${cls} mono mono-${x.c}" aria-hidden="true"><span>${inicial(x)}</span></span>`;
   const norm = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
   const tamanos = (x) => (x.m != null ? [['m', 'Mediana', 'Perfecta para uno', x.m], ...(x.f != null ? [['f', 'Familiar', 'Para compartir entre dos', x.f]] : [])] : []);
   const precioDe = (x, tam) => (tam === 'm' ? x.m : tam === 'f' ? x.f : x.p);
@@ -17,7 +20,7 @@
   }
   pintarEstado(); setInterval(pintarEstado, 60000);
   $('[data-envio-corto]').textContent = D.envio == null ? 'Envío a confirmar' : `Envío ${euros(D.envio)}`;
-  $('[data-minimo-corto]').textContent = D.minimo ? `Pedido mínimo ${euros(D.minimo)}` : `${D.zona} y alrededores`;
+  $('[data-minimo-corto]').textContent = D.minimo ? `Pedido mínimo ${euros(D.minimo)}` : 'O Barco y alrededores';
   $('[data-nota-envio]').textContent = D.envio == null ? `Repartimos en ${D.zona} y alrededores. Los gastos de envío te los confirmamos con el pedido.` : `Repartimos en ${D.zona}. Envío: ${euros(D.envio)}.`;
 
   /* ---------- carta ---------- */
@@ -27,7 +30,7 @@
     const tags = (x.t || []).map((t) => `<span class="etiq${/novedad|picante/i.test(t) ? ' roja' : ''}">${t}</span>`).join(' ');
     const foto = x.img
       ? `<span class="producto-foto"><img src="img/${x.img}-sm.webp" alt="" loading="lazy"><span class="mas" data-mas="${x.id}" aria-hidden="true">+</span></span>`
-      : `<span class="producto-sinfoto"><span class="mas" data-mas="${x.id}" aria-hidden="true">+</span></span>`;
+      : `<span class="producto-foto mono mono-${x.c}"><span class="mono-letra" aria-hidden="true">${inicial(x)}</span><span class="mas" data-mas="${x.id}" aria-hidden="true">+</span></span>`;
     return `<button type="button" class="producto" data-id="${x.id}" data-busca="${norm(x.n + ' ' + x.d)}" aria-label="${x.n}, ver y añadir">
       <span class="producto-txt">${tags ? `<span>${tags}</span>` : ''}<b>${x.n}</b>${x.d ? `<p>${x.d}</p>` : ''}<span class="producto-precio">${desdeTxt(x)}</span><span class="agot">Agotado hoy</span></span>${foto}</button>`;
   };
@@ -114,7 +117,7 @@
   let H = null;
   function abrirHoja(x) {
     H = { x, tam: tamanos(x).length ? 'm' : 'u', cant: 1 };
-    $('[data-hoja-foto]').innerHTML = x.img ? `<img src="img/${x.img}.webp" alt="${x.n}">` : '';
+    $('[data-hoja-foto]').innerHTML = x.img ? `<img src="img/${x.img}.webp" alt="${x.n}">` : monograma(x, 'hoja-mono');
     $('[data-hoja-nombre]').textContent = x.n;
     $('[data-hoja-desc]').textContent = x.d || '';
     const ops = tamanos(x);
@@ -200,7 +203,7 @@
     // líneas
     $('[data-lineas]').innerHTML = [...pedido].map(([k, c]) => {
       const [id, tam] = k.split('|'); const x = CARTA[+id]; const p = precioDe(x, tam);
-      return `<li class="linea">${x.img ? `<img class="linea-foto" src="img/${x.img}-sm.webp" alt="">` : '<span class="linea-foto"></span>'}<span class="linea-txt"><b>${x.n}</b><small>${tam === 'm' ? 'Mediana · ' : tam === 'f' ? 'Familiar · ' : ''}${p == null ? 'precio al confirmar' : euros(p * c)}</small></span>
+      return `<li class="linea">${x.img ? `<img class="linea-foto" src="img/${x.img}-sm.webp" alt="">` : monograma(x, 'linea-foto')}<span class="linea-txt"><b>${x.n}</b><small>${tam === 'm' ? 'Mediana · ' : tam === 'f' ? 'Familiar · ' : ''}${p == null ? 'precio al confirmar' : euros(p * c)}</small></span>
         <span class="cantidad"><button type="button" data-k="${k}" data-d="-1" aria-label="Quitar uno">−</button><b>${c}</b><button type="button" data-k="${k}" data-d="1" aria-label="Añadir uno">+</button></span></li>`;
     }).join('');
     $('[data-vacio]').hidden = n > 0;
@@ -213,6 +216,9 @@
     $('[data-nota-envio]').hidden = !casa;
     $('[data-nota-recoger]').hidden = casa;
     $('[data-pago-bloque]').hidden = !casa;
+    $('[data-pago-local]').hidden = casa;
+    $('[data-enviar-sub]').textContent = casa ? 'Pagas al repartidor al recibirlo' : 'Pagas en el local al recogerlo';
+    $('[data-como-2]').textContent = casa ? 'Lo preparamos al momento y te lo llevamos a casa.' : 'Lo preparamos y te avisamos cuando esté listo.';
     $('[data-cambio-wrap]').hidden = !(casa && pago === 'Efectivo');
     // resumen
     const tot = euros(total) + (casa && D.envio == null ? ' + envío' : '');
