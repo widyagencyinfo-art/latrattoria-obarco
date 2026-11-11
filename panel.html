@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pedidos · La Trattoria</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1d1b19">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Pedidos">
+<link rel="icon" href="img/logo.png">
+<link rel="apple-touch-icon" href="img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="panel.css">
+</head>
+<body>
+
+<!-- entrada con PIN -->
+<section class="login" data-login hidden>
+  <img src="img/logo.webp" alt="" width="84" height="84">
+  <h1>Pedidos de La Trattoria</h1>
+  <p>Escribe tu PIN de 6 cifras</p>
+  <div class="pin-puntos" data-pin-puntos><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <p class="login-error" data-login-error aria-live="assertive"></p>
+  <div class="teclado" data-teclado>
+    <button type="button">1</button><button type="button">2</button><button type="button">3</button>
+    <button type="button">4</button><button type="button">5</button><button type="button">6</button>
+    <button type="button">7</button><button type="button">8</button><button type="button">9</button>
+    <span></span><button type="button">0</button><button type="button" data-borrar aria-label="Borrar">⌫</button>
+  </div>
+</section>
+
+<!-- panel -->
+<div class="app" data-app hidden>
+  <header class="cab">
+    <img src="img/logo.webp" alt="" width="40" height="40">
+    <div class="cab-tit"><b>Pedidos</b><small data-resumen>Hoy</small></div>
+    <button type="button" class="interruptor" data-recibir aria-pressed="true"><i></i><span>Recibiendo pedidos</span></button>
+    <button type="button" class="icono" data-sonido aria-label="Sonido">🔔</button>
+    <button type="button" class="icono" data-abrir-ajustes aria-label="Ajustes">⚙︎</button>
+  </header>
+
+  <div class="avisos">
+    <button type="button" class="aviso aviso-sonido" data-activar-sonido hidden>🔇 Toca aquí para activar el sonido de los pedidos nuevos</button>
+    <div class="aviso aviso-pausa" data-aviso-pausa hidden>⏸ Pedidos online en PAUSA: los clientes no pueden pedir. <button type="button" data-reanudar>Volver a recibir</button></div>
+    <div class="aviso aviso-red" data-aviso-red hidden>Sin conexión. Reintentando…</div>
+    <div class="aviso aviso-historial" data-aviso-historial hidden><span data-historial-txt></span> <button type="button" data-volver-hoy>Volver a hoy</button></div>
+  </div>
+
+  <nav class="pestanas" data-pestanas>
+    <button type="button" data-tab="nuevos" aria-pressed="true">Nuevos <b data-n="nuevos">0</b></button>
+    <button type="button" data-tab="marcha" aria-pressed="false">En marcha <b data-n="marcha">0</b></button>
+    <button type="button" data-tab="hechos" aria-pressed="false">Terminados <b data-n="hechos">0</b></button>
+  </nav>
+
+  <main class="tablero" data-tablero>
+    <section class="col" data-col="nuevos"><h2>Nuevos <b data-n="nuevos">0</b></h2><div class="lista" data-lista="nuevos"></div></section>
+    <section class="col" data-col="marcha"><h2>En marcha <b data-n="marcha">0</b></h2><div class="lista" data-lista="marcha"></div></section>
+    <section class="col" data-col="hechos"><h2>Terminados <b data-n="hechos">0</b></h2><div class="lista" data-lista="hechos"></div></section>
+  </main>
+</div>
+
+<!-- ajustes -->
+<div class="velo" data-velo hidden></div>
+<aside class="ajustes" data-ajustes hidden aria-label="Ajustes">
+  <div class="ajustes-cab"><h2>Ajustes</h2><button type="button" class="icono" data-cerrar-ajustes aria-label="Cerrar">✕</button></div>
+  <div class="ajustes-cuerpo">
+    <section>
+      <h3>Tiempo de espera normal</h3>
+      <p class="ayuda">Lo que ven los clientes al pedir y lo que sale marcado al aceptar.</p>
+      <div class="chips" data-espera></div>
+    </section>
+    <section>
+      <h3>Platos agotados hoy</h3>
+      <p class="ayuda">Marca lo que no te queda: en la web sale «Agotado hoy» y no se puede pedir.</p>
+      <div data-agotados></div>
+    </section>
+    <section>
+      <h3>Días anteriores</h3>
+      <div class="dias" data-dias></div>
+    </section>
+    <section>
+      <h3>Este aparato</h3>
+      <div class="botones-ajustes">
+        <button type="button" class="b-gris" data-probar-sonido>🔔 Probar el sonido</button>
+        <button type="button" class="b-gris" data-salir>Cerrar sesión</button>
+      </div>
+      <p class="ayuda">Consejo: deja esta página abierta en un móvil o tablet en la cocina, con el volumen alto. Para tenerla como app: Compartir → «Añadir a pantalla de inicio».</p>
+    </section>
+  </div>
+</aside>
+
+<!-- rechazar -->
+<div class="dialogo" data-dialogo hidden role="dialog" aria-modal="true" aria-labelledby="rech-tit">
+  <h2 id="rech-tit">¿Por qué no puedes atenderlo?</h2>
+  <p class="ayuda">El cliente lo verá en su pantalla.</p>
+  <div class="motivos" data-motivos>
+    <button type="button">Estamos cerrados ahora</button>
+    <button type="button">No llegamos a esa zona</button>
+    <button type="button">Demasiados pedidos ahora mismo</button>
+    <button type="button">Nos falta algún producto</button>
+  </div>
+  <input type="text" data-motivo-otro placeholder="Otro motivo (opcional)">
+  <div class="dialogo-pie"><button type="button" class="b-gris" data-dialogo-no>Volver</button><button type="button" class="b-rojo" data-dialogo-si>Rechazar pedido</button></div>
+</div>
+
+<div class="toast" data-toast hidden></div>
+<div class="ticket" data-ticket></div>
+
+<script src="datos.js" defer></script>
+<script src="panel.js" defer></script>
+</body>
+</html>

@@ -29,7 +29,7 @@
       ? `<span class="producto-foto"><img src="img/${x.img}-sm.webp" alt="" loading="lazy"><span class="mas" data-mas="${x.id}" aria-hidden="true">+</span></span>`
       : `<span class="producto-sinfoto"><span class="mas" data-mas="${x.id}" aria-hidden="true">+</span></span>`;
     return `<button type="button" class="producto" data-id="${x.id}" data-busca="${norm(x.n + ' ' + x.d)}" aria-label="${x.n}, ver y añadir">
-      <span class="producto-txt">${tags ? `<span>${tags}</span>` : ''}<b>${x.n}</b>${x.d ? `<p>${x.d}</p>` : ''}<span class="producto-precio">${desdeTxt(x)}</span></span>${foto}</button>`;
+      <span class="producto-txt">${tags ? `<span>${tags}</span>` : ''}<b>${x.n}</b>${x.d ? `<p>${x.d}</p>` : ''}<span class="producto-precio">${desdeTxt(x)}</span><span class="agot">Agotado hoy</span></span>${foto}</button>`;
   };
   const destacados = DESTACADOS.map((n) => CARTA.find((x) => x.n === n)).filter(Boolean);
   let html = `<section class="sec-menu" id="sec-destacados" data-sec><h2>Lo más pedido</h2><p class="sub">Lo que más repiten nuestros clientes</p><div class="carrusel">${destacados.map((x) => `
@@ -40,6 +40,18 @@
   });
   menu.innerHTML = html + '<p class="sin-resultados" data-sin hidden></p>';
   cats.innerHTML = [['destacados', 'Lo más pedido'], ...CATS.map((c) => [c.id, c.nombre])].map(([id, n]) => `<a href="#sec-${id}" data-cat="${id}">${n}</a>`).join('');
+
+  /* ---------- lo que Alfredo cambia desde su panel: pausa, tiempo de espera y platos agotados ---------- */
+  let CONF = { pausado: false, espera: 40, agotados: [] };
+  const agotado = (x) => CONF.agotados.includes(x.n);
+  function aplicarConf() {
+    $('[data-pausa]').hidden = !CONF.pausado;
+    $('[data-tiempo]').textContent = `Listo en ~${CONF.espera} min`;
+    $$('[data-id]', menu).forEach((el) => el.classList.toggle('agotado', agotado(CARTA[+el.dataset.id])));
+    [...pedido.keys()].forEach((k) => { if (agotado(CARTA[+k.split('|')[0]])) pedido.delete(k); });
+    pintar();
+  }
+  const cargarConf = () => api('trattoria_config').then((c) => { if (c) { CONF = { ...CONF, ...c }; aplicarConf(); } }).catch(() => {});
 
   // pestaña activa según lo que se ve
   const marcar = (id) => {
@@ -92,6 +104,7 @@
     const el = e.target.closest('[data-id]');
     if (!el) return;
     const x = CARTA[+el.dataset.id];
+    if (agotado(x)) { toast(`Hoy no nos queda ${x.n}. ¡Mañana más!`); return; }
     const rapido = e.target.closest('[data-mas]') && !tamanos(x).length;
     if (rapido) anadir(x, 'u', 1); else abrirHoja(x);
   });
@@ -218,6 +231,7 @@
     enlace();
   }
 
+  let textoWA = '';
   function enlace() {
     const { sub, sinPrecio, total } = cuentas();
     const casa = modo === 'domicilio';
@@ -236,28 +250,140 @@
       '',
       '¿Me lo confirmáis? Gracias.',
     ].filter((l) => l !== null).join('\n');
-    $('[data-enviar]').href = wa(txt);
+    textoWA = txt;
   }
 
-  // antes de abrir WhatsApp: que no falte nada para poder llevarlo
-  $('[data-enviar]').addEventListener('click', (e) => {
+  /* ---------- hacer el pedido: se guarda en el panel de Alfredo y se sigue en directo ---------- */
+  let enviando = false;
+  $('[data-enviar]').addEventListener('click', async () => {
+    if (enviando) return;
     const err = $('[data-error]');
     const casa = modo === 'domicilio';
-    const { n, sub } = cuentas();
-    if (!n) { e.preventDefault(); err.textContent = 'Añade algo de la carta para hacer el pedido.'; return; }
+    const { n, sub, sinPrecio } = cuentas();
+    if (CONF.pausado) { err.textContent = 'Ahora mismo no aceptamos pedidos online. Llámanos al 988 32 63 21.'; return; }
+    if (!n) { err.textContent = 'Añade algo de la carta para hacer el pedido.'; return; }
     const faltan = [...(casa ? ['dir'] : []), 'nombre', 'tel'].filter((k) => !val(k) || (k === 'tel' && val(k).replace(/\D/g, '').length < 9));
     GUARDA.forEach((k) => $(`[data-f="${k}"]`).classList.toggle('mal', faltan.includes(k)));
     if (faltan.length) {
-      e.preventDefault();
       const nombres = { nombre: 'tu nombre', tel: 'un teléfono', dir: 'la dirección' };
       err.textContent = `Falta ${faltan.map((k) => nombres[k]).join(', ').replace(/, ([^,]*)$/, ' y $1')} para poder ${casa ? 'llevártelo' : 'preparártelo'}.`;
       $(`[data-f="${faltan[0]}"]`).focus();
       return;
     }
-    if (casa && D.minimo && sub < D.minimo) { e.preventDefault(); err.textContent = `El pedido mínimo a domicilio es de ${euros(D.minimo)}.`; return; }
+    if (casa && D.minimo && sub < D.minimo) { err.textContent = `El pedido mínimo a domicilio es de ${euros(D.minimo)}.`; return; }
     err.textContent = '';
     guardar();
+    const datos = {
+      modo, nombre: val('nombre'), tel: val('tel'), dir: casa ? val('dir') : '', hora: selHora.value,
+      pago: casa ? pago : 'En el local', cambio: casa && pago === 'Efectivo' ? val('cambio') : '', nota: val('nota'),
+      lineas: [...pedido].map(([k, c]) => { const [id, tam] = k.split('|'); const x = CARTA[+id]; return { n: x.n, tam: tam === 'u' ? '' : tam, c, p: precioDe(x, tam) }; }),
+      subtotal: sub, envio: casa ? D.envio : null, sin_precio: sinPrecio,
+    };
+    enviando = true;
+    const boton = $('[data-enviar]');
+    boton.classList.add('cargando'); $('[data-enviar-txt]').textContent = 'Enviando…';
+    let r = null;
+    try { r = await api('trattoria_crear_pedido', { p: datos }); } catch (e) { r = null; }
+    enviando = false;
+    boton.classList.remove('cargando'); $('[data-enviar-txt]').textContent = 'Hacer pedido';
+    if (r && r.codigo) {
+      const ult = { codigo: r.codigo, token: r.token, num: r.num, modo, nombre: datos.nombre, desde: Date.now(), espera: r.espera };
+      try { localStorage.setItem('trattoria-ultimo', JSON.stringify(ult)); } catch (e) { /* nada */ }
+      pedido.clear(); pintar();
+      carrito.classList.remove('abierto');
+      abrirSeguir(ult, { estado: 'nuevo', num: r.num, modo });
+      return;
+    }
+    if (r && r.error === 'pausado') { CONF.pausado = true; aplicarConf(); err.textContent = 'Ahora mismo no aceptamos pedidos online. Llámanos al 988 32 63 21.'; return; }
+    if (r && r.error === 'muchos') { err.textContent = 'Ya nos han llegado varios pedidos desde este teléfono. Llámanos si necesitas algo más.'; return; }
+    if (r && r.error === 'telefono') { $('[data-f="tel"]').classList.add('mal'); err.textContent = 'Revisa el teléfono: necesitamos uno de 9 cifras.'; return; }
+    // sin conexión con el panel: que el pedido no se pierda, va por WhatsApp
+    abrirSeguir(null, { estado: 'whatsapp' });
   });
+
+  /* ---------- seguimiento del pedido ---------- */
+  const seguir = $('[data-seguir]');
+  let SEG = null, segTimer = null;
+  const PASOS_CASA = [['nuevo', 'Pedido enviado'], ['aceptado', 'Confirmado · en el horno'], ['en_camino', 'De camino a tu casa'], ['entregado', 'Entregado']];
+  const PASOS_LOCAL = [['nuevo', 'Pedido enviado'], ['aceptado', 'Confirmado · en el horno'], ['listo', 'Listo para recoger'], ['entregado', 'Recogido']];
+  const horaDe = (iso, mas) => { const d = new Date(new Date(iso).getTime() + (mas || 0) * 60000); return d.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Madrid' }); };
+
+  function pintarSeguir(e) {
+    const casa = (e.modo || SEG?.modo) === 'domicilio';
+    const num = e.num || SEG?.num;
+    const ico = $('[data-seguir-icono]'), tit = $('[data-seguir-tit]'), sub = $('[data-seguir-sub]');
+    $('[data-seguir-num]').textContent = num ? `Pedido nº ${num}` : '';
+    $('[data-seguir-ayuda]').hidden = true;
+    $('[data-seguir-pie]').hidden = e.estado === 'whatsapp';
+    let waTxt = num ? `Hola, La Trattoria. Os escribo por mi pedido nº ${num}${SEG?.nombre ? ' (a nombre de ' + SEG.nombre + ')' : ''}.` : textoWA;
+    $('[data-seguir-wa-txt]').textContent = 'Escribir por WhatsApp';
+    const llega = e.aceptado_en && e.minutos ? horaDe(e.aceptado_en, e.minutos) : null;
+    const t = {
+      nuevo: ['🍕', '¡Pedido enviado!', 'Ya lo tenemos en el restaurante. En un momento lo confirmamos y te decimos la hora.'],
+      aceptado: ['👨‍🍳', 'Confirmado, ¡al horno!', llega ? (casa ? `Llega a tu casa sobre las <b>${llega}</b>.` : `Estará listo sobre las <b>${llega}</b>.`) : 'Lo estamos preparando.'],
+      listo: casa ? ['📦', 'Listo, sale ya', 'Tu pedido sale ahora mismo del horno.'] : ['✅', '¡Listo para recoger!', 'Te esperamos en <b>Rúa San Mauro, 29</b>.'],
+      en_camino: ['🛵', 'De camino', 'El repartidor va hacia tu casa. ¡Prepara la mesa!'],
+      entregado: ['😋', '¡Que aproveche!', casa ? 'Pedido entregado. Gracias por pedir directo al restaurante.' : 'Gracias por pedir directo al restaurante.'],
+      rechazado: ['😔', 'No podemos atender tu pedido', (e.motivo ? `Motivo: <b>${e.motivo}</b>. ` : '') + 'Llámanos y buscamos una solución.'],
+      whatsapp: ['📲', 'Último paso: envíalo por WhatsApp', 'No hemos podido enviarlo desde aquí. Pulsa el botón verde: se abre WhatsApp con tu pedido ya escrito.'],
+    }[e.estado] || ['🍕', 'Tu pedido', ''];
+    ico.textContent = t[0]; tit.textContent = t[1]; sub.innerHTML = t[2];
+    if (e.estado === 'whatsapp') { waTxt = textoWA; $('[data-seguir-wa-txt]').textContent = 'Enviar pedido por WhatsApp'; }
+    $('[data-seguir-wa]').href = wa(waTxt);
+    $('[data-seguir-wa]').classList.toggle('principal', e.estado === 'whatsapp' || e.estado === 'rechazado');
+    // pasos
+    const pasos = casa ? PASOS_CASA : PASOS_LOCAL;
+    const est = e.estado === 'listo' && casa ? 'aceptado' : e.estado;
+    const i = pasos.findIndex(([k]) => k === est);
+    $('[data-pasos]').hidden = i < 0;
+    $('[data-pasos]').innerHTML = pasos.map(([, n], j) => `<li class="${j < i ? 'hecho' : j === i ? 'ahora' : ''}"><i></i><span>${n}</span></li>`).join('');
+    // si en 8 minutos nadie lo ha confirmado, que el cliente tenga a mano llamar
+    if (e.estado === 'nuevo' && SEG && Date.now() - SEG.desde > 8 * 60000) $('[data-seguir-ayuda]').hidden = false;
+    pintarEnCurso(e);
+  }
+
+  async function refrescarSeguir() {
+    if (!SEG) return;
+    try {
+      const e = await api('trattoria_seguir', { c: SEG.codigo, tk: SEG.token });
+      if (e) { SEG.ultimo = e; pintarSeguir(e); if (['entregado', 'rechazado'].includes(e.estado)) clearInterval(segTimer); }
+    } catch (er) { /* sin red: se reintenta */ }
+  }
+
+  function abrirSeguir(ult, e) {
+    if (ult) SEG = ult;
+    seguir.hidden = false; document.body.classList.add('bloqueo');
+    pintarSeguir(e || SEG.ultimo || { estado: 'nuevo' });
+    clearInterval(segTimer);
+    if (SEG && e?.estado !== 'whatsapp') { refrescarSeguir(); segTimer = setInterval(() => { if (!document.hidden) refrescarSeguir(); }, 8000); }
+  }
+  $('[data-seguir-cerrar]').addEventListener('click', () => { seguir.hidden = true; document.body.classList.remove('bloqueo'); });
+
+  // barrita de arriba con el pedido en curso
+  function pintarEnCurso(e) {
+    const b = $('[data-en-curso]');
+    const vivo = SEG && e && !['entregado', 'rechazado', 'whatsapp'].includes(e.estado);
+    b.hidden = !vivo;
+    if (vivo) {
+      const txt = { nuevo: 'enviado, esperando confirmación', aceptado: 'confirmado, en el horno', listo: SEG.modo === 'domicilio' ? 'sale ya' : 'listo para recoger', en_camino: 'de camino' }[e.estado] || '';
+      $('[data-en-curso-txt]').textContent = `Tu pedido nº ${SEG.num}: ${txt}`;
+    }
+  }
+  $('[data-en-curso]').addEventListener('click', () => abrirSeguir(null, null));
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) { if (SEG) refrescarSeguir(); cargarConf(); } });
+
+  // ¿hay un pedido de hoy sin terminar en este móvil?
+  try {
+    const u = JSON.parse(localStorage.getItem('trattoria-ultimo') || 'null');
+    if (u && Date.now() - u.desde < 8 * 3600000) {
+      SEG = u;
+      api('trattoria_seguir', { c: u.codigo, tk: u.token }).then((e) => {
+        if (!e) return;
+        SEG.ultimo = e; pintarEnCurso(e);
+        if (!['entregado', 'rechazado'].includes(e.estado)) segTimer = setInterval(() => { if (!document.hidden) refrescarSeguir(); }, 15000);
+      }).catch(() => {});
+    }
+  } catch (e) { /* nada */ }
 
   /* ---------- barra superior ---------- */
   const top = $('[data-top]');
@@ -265,4 +391,5 @@
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
   pintar();
+  cargarConf();
 })();

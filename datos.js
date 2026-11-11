@@ -6,6 +6,23 @@ const WA = '34667754998'; // ⚠️ confirmar con Alfredo a qué número quiere 
    envio: gastos de envío en € (null = «te lo confirmamos») · minimo: pedido mínimo en € (null = sin mínimo) */
 const DOMICILIO = { zona: 'O Barco de Valdeorras', envio: null, minimo: null, pagos: ['Efectivo', 'Tarjeta', 'Bizum'] };
 
+/* ---------- pedidos online: se guardan en la base de datos de Widy y Alfredo los ve en panel.html ----------
+   La clave es la pública (solo deja crear pedidos y seguirlos; el resto pide el PIN del panel). */
+const API_URL = 'https://kncmckkgurbjuisdqhdf.supabase.co';
+const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtuY21ja2tndXJianVpc2RxaGRmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk3ODYyNzEsImV4cCI6MjA5NTM2MjI3MX0.39-22ThglIljBPDmWoM28V4jh2ZNGlR2uK_E_BLHv58';
+async function api(fn, body = {}, ms = 9000) {
+  const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), ms);
+  try {
+    const r = await fetch(`${API_URL}/rest/v1/rpc/${fn}`, {
+      method: 'POST', signal: ctl.signal,
+      headers: { apikey: API_KEY, Authorization: `Bearer ${API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return await r.json();
+  } finally { clearTimeout(t); }
+}
+
 const wa = (txt) => `https://wa.me/${WA}?text=${encodeURIComponent(txt)}`;
 const euros = (n) => n.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
 
