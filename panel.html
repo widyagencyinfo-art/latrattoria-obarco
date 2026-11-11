@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pedidos · La Trattoria</title>
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#1d1b19">
+<meta name="theme-color" content="#1f3a2a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Pedidos">
@@ -13,7 +13,7 @@
 <link rel="apple-touch-icon" href="img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@400;500;600;700;800;900&family=Yellowtail&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="panel.css">
 </head>
 <body>
@@ -21,7 +21,8 @@
 <!-- entrada con PIN -->
 <section class="login" data-login hidden>
   <img src="img/logo.webp" alt="" width="84" height="84">
-  <h1>Pedidos de La Trattoria</h1>
+  <span class="login-script">La Trattoria</span>
+  <h1>Panel de pedidos</h1>
   <p>Escribe tu PIN de 6 cifras</p>
   <div class="pin-puntos" data-pin-puntos><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <p class="login-error" data-login-error aria-live="assertive"></p>
@@ -38,10 +39,11 @@
   <header class="cab">
     <img src="img/logo.webp" alt="" width="40" height="40">
     <div class="cab-tit"><b>Pedidos</b><small data-resumen>Hoy</small></div>
-    <button type="button" class="interruptor" data-recibir aria-pressed="true"><i></i><span>Recibiendo pedidos</span></button>
     <button type="button" class="icono" data-sonido aria-label="Sonido">🔔</button>
     <button type="button" class="icono" data-abrir-ajustes aria-label="Ajustes">⚙︎</button>
   </header>
+
+  <button type="button" class="franja" data-recibir aria-pressed="true"><i></i><span>Recibiendo pedidos</span><b data-recibir-accion>Pausar</b></button>
 
   <div class="avisos">
     <button type="button" class="aviso aviso-sonido" data-activar-sonido hidden>🔇 Toca aquí para activar el sonido de los pedidos nuevos</button>
@@ -105,6 +107,17 @@
   </div>
   <input type="text" data-motivo-otro placeholder="Otro motivo (opcional)">
   <div class="dialogo-pie"><button type="button" class="b-gris" data-dialogo-no>Volver</button><button type="button" class="b-rojo" data-dialogo-si>Rechazar pedido</button></div>
+</div>
+
+<!-- aviso a pantalla completa cuando entra un pedido -->
+<div class="alarma-nueva" data-alarma hidden role="alertdialog" aria-labelledby="alarma-tit">
+  <div class="alarma-caja">
+    <span class="alarma-campana" aria-hidden="true">🔔</span>
+    <p class="alarma-script">¡Pedido nuevo!</p>
+    <h2 id="alarma-tit" data-alarma-tit>#7</h2>
+    <p class="alarma-det" data-alarma-det></p>
+    <button type="button" class="alarma-boton" data-alarma-ver>Ver pedido</button>
+  </div>
 </div>
 
 <div class="toast" data-toast hidden></div>

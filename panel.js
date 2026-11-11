@@ -99,13 +99,29 @@
     const nuevos = r.pedidos.filter((p) => p.estado === 'nuevo' && !vistos.has(p.id));
     r.pedidos.forEach((p) => vistos.add(p.id));
     LS.set('trattoria-vistos', JSON.stringify([...vistos].slice(-300)));
-    if (nuevos.length && !primeraCarga) { timbre(); avisoNotificacion(nuevos.length); if (innerWidth < 900) cambiarTab('nuevos'); }
+    if (nuevos.length && !primeraCarga) { timbre(); avisoNotificacion(nuevos.length); if (innerWidth < 900) cambiarTab('nuevos'); mostrarAlarma(nuevos); }
+    // al abrir el panel con pedidos sin aceptar y el sonido bloqueado: el aviso grande sirve para desbloquearlo
+    else if (primeraCarga && !DIA && r.pedidos.some((p) => p.estado === 'nuevo') && !sonidoListo()) mostrarAlarma(r.pedidos.filter((p) => p.estado === 'nuevo'));
     primeraCarga = false;
     const firma = JSON.stringify([r.pedidos, r.ajustes, DIA]);
     if (firma !== ultimaFirma) { ultimaFirma = firma; pintar(); }
     pintarAvisoSonido();
     return true;
   }
+
+  function mostrarAlarma(lista) {
+    const ult = lista[lista.length - 1];
+    $('[data-alarma-tit]').textContent = lista.length > 1 ? `${lista.length} pedidos` : `#${ult.num}`;
+    const piezas = (ult.lineas || []).reduce((s, l) => s + l.c, 0);
+    $('[data-alarma-det]').textContent = lista.length > 1
+      ? 'Están esperando a que los aceptes'
+      : `${ult.modo === 'domicilio' ? '🛵 A domicilio' : '🏃 Para recoger'} · ${ult.nombre} · ${piezas} ${piezas === 1 ? 'cosa' : 'cosas'}`;
+    $('[data-alarma]').hidden = false;
+  }
+  $('[data-alarma-ver]').addEventListener('click', () => {
+    desbloquear(); $('[data-alarma]').hidden = true; cambiarTab('nuevos');
+    const primero = $('[data-lista="nuevos"] .pedido'); if (primero) primero.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 
   function avisoNotificacion(n) {
     try {
@@ -146,7 +162,7 @@
       const esp = DATOS.ajustes.espera;
       const ops = [...new Set([20, 30, 40, 50, 60, esp])].sort((a, b) => a - b);
       acciones = `<p class="acc-tit">Aceptar · ¿en cuánto ${casa ? 'llega' : 'está listo'}?</p>
-        <div class="tiempos">${ops.map((m) => `<button type="button" class="b-verde${m === esp ? ' sugerido' : ''}" data-acc="aceptado" data-min="${m}" data-id="${p.id}">${m} min</button>`).join('')}</div>
+        <div class="tiempos">${ops.map((m) => `<button type="button" class="b-min${m === esp ? ' sugerido' : ''}" data-acc="aceptado" data-min="${m}" data-id="${p.id}"><b>${m}</b><small>min</small></button>`).join('')}</div>
         <button type="button" class="b-texto-rojo" data-rechazar="${p.id}">No puedo atenderlo</button>`;
     } else if (p.estado === 'aceptado') {
       acciones = casa
@@ -225,7 +241,8 @@
     const pausado = DATOS.ajustes.pausado;
     const sw = $('[data-recibir]');
     sw.setAttribute('aria-pressed', !pausado);
-    sw.querySelector('span').textContent = pausado ? 'Pedidos en pausa' : 'Recibiendo pedidos';
+    sw.querySelector('span').textContent = pausado ? 'Pedidos online en pausa' : 'Recibiendo pedidos online';
+    $('[data-recibir-accion]').textContent = pausado ? 'Reanudar' : 'Pausar';
     $('[data-aviso-pausa]').hidden = !pausado;
     $('[data-aviso-historial]').hidden = !DIA;
     if (DIA) $('[data-historial-txt]').textContent = `Estás viendo los pedidos del ${fechaLarga(DIA)}.`;
