@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Pedir a domicilio · La Trattoria, O Barco de Valdeorras</title>
-<meta name="description" content="Pide pizzas y focaccias de La Trattoria a domicilio o para recoger en O Barco de Valdeorras. Eliges en la carta, nos llega tu pedido al momento y lo sigues en directo.">
+<title>Carta y pedidos por teléfono · La Trattoria, O Barco de Valdeorras</title>
+<meta name="description" content="Carta con precios de La Trattoria: pizzas, focaccias y pasta en O Barco de Valdeorras. Pide por teléfono al 988 32 63 21 o al 667 75 49 98. Envío a domicilio 1,20 €.">
 <meta name="theme-color" content="#1f3a2a">
-<meta property="og:title" content="Pide a domicilio · La Trattoria">
-<meta property="og:description" content="Pizzas y focaccias artesanas a domicilio en O Barco de Valdeorras.">
+<meta property="og:title" content="Carta y pedidos · La Trattoria">
+<meta property="og:description" content="Pizzas y focaccias artesanas a domicilio en O Barco de Valdeorras. Llama y te lo llevamos: envío 1,20 €.">
 <meta property="og:image" content="img/cuatro-quesos.webp">
 <link rel="icon" href="img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,11 +40,9 @@
     <div class="portada-txt">
       <span class="script">Pizzería artesana</span>
       <h1>La Trattoria</h1>
-      <p>Pizzas y focaccias · O Barco de Valdeorras</p>
+      <p>Pizzas, focaccias y pasta · O Barco de Valdeorras</p>
     </div>
   </div>
-
-  <button type="button" class="en-curso" data-en-curso hidden><i></i><span data-en-curso-txt>Tu pedido</span><b>Ver ›</b></button>
 
   <section class="ficha">
     <img class="ficha-logo" src="img/logo.webp" alt="" width="76" height="76">
@@ -55,118 +53,96 @@
     <div class="ficha-entrega">
       <div class="entrega-op">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M9 17h6l-2-7H9M13 6h3l2 11"/></svg>
-        <span><b data-envio-corto>Envío a confirmar</b><small data-minimo-corto>O Barco y alrededores</small></span>
+        <span><b data-envio-corto>Envío 1,20 €</b><small>O Barco y alrededores</small></span>
       </div>
       <div class="entrega-op">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        <span><b data-tiempo>Listo en ~40 min</b><small>Sigues tu pedido en directo</small></span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h3"/></svg>
+        <span><b>Pagas al repartidor</b><small data-pagos-txt>Tarjeta o efectivo</small></span>
       </div>
     </div>
-    <div class="segmento" role="radiogroup" aria-label="Cómo lo quieres">
-      <button type="button" data-modo="domicilio" aria-pressed="true">A domicilio</button>
-      <button type="button" data-modo="recoger" aria-pressed="false">Para recoger</button>
-    </div>
+    <div class="llamar-dos" data-tels></div>
   </section>
 
-  <div class="pausa" data-pausa hidden>
-    <b>Ahora mismo no aceptamos pedidos online.</b>
-    <span>Llámanos al <a href="tel:+34988326321">988 32 63 21</a> y te lo preparamos.</span>
-  </div>
-
-  <section class="como" aria-label="Cómo funciona">
-    <h2 class="como-tit">Pides aquí, <em>pagas al recibirlo</em></h2>
+  <section class="como" aria-label="Cómo pedir">
+    <h2 class="como-tit">Pide por teléfono, <em>te lo llevamos a casa</em></h2>
     <ol class="como-pasos">
-      <li><b>1</b><strong>Eliges</strong><span>en la carta</span></li>
-      <li><b>2</b><strong data-como-2t>Te lo llevamos</strong><span data-como-2>y lo sigues en directo</span></li>
-      <li><b>3</b><strong>Pagas al recibirlo</strong><span>efectivo o tarjeta</span></li>
+      <li><b>1</b><strong>Elige</strong><span>en la carta</span></li>
+      <li><b>2</b><strong>Llámanos</strong><span>y te lo preparamos</span></li>
+      <li><b>3</b><strong>Paga al recibirlo</strong><span>tarjeta o efectivo</span></li>
     </ol>
+  </section>
+
+  <!-- anuncios de la casa -->
+  <section class="promos" aria-label="Destacamos">
+    <div class="promos-fila" data-promos>
+      <article class="promo promo-pasta">
+        <img src="img/spaghetti-carbonara.webp" alt="Spaghetti carbonara de La Trattoria" loading="lazy">
+        <div class="promo-txt">
+          <span class="promo-etiq">Pasta de la casa</span>
+          <h3>Carbonara o boloñesa</h3>
+          <p class="promo-precio">11 €</p>
+        </div>
+      </article>
+      <article class="promo">
+        <img src="img/gnocchi-burrata.webp" alt="Gnocchi con burrata de La Trattoria" loading="lazy">
+        <div class="promo-txt">
+          <span class="promo-etiq roja">Novedad</span>
+          <h3>Gnocchi con burrata</h3>
+          <p>Pesto genovés y burrata cremosa en el centro</p>
+        </div>
+      </article>
+      <article class="promo">
+        <img src="img/focaccia-cuatro-quesos.webp" alt="Focaccia cuatro quesos de La Trattoria" loading="lazy">
+        <div class="promo-txt">
+          <span class="promo-etiq">La especialidad</span>
+          <h3>Focaccia cuatro quesos</h3>
+          <p class="promo-precio">16,50 €</p>
+        </div>
+      </article>
+      <article class="promo promo-envio">
+        <div class="promo-txt">
+          <span class="promo-etiq">A domicilio</span>
+          <h3>Recién salida del horno, en tu casa</h3>
+          <p class="promo-precio">Envío 1,20 €</p>
+          <p>O Barco y alrededores</p>
+        </div>
+      </article>
+    </div>
   </section>
 
   <label class="buscar">
     <span class="sr">Buscar en la carta</span>
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-    <input type="search" placeholder="Buscar en La Trattoria" data-buscar>
+    <input type="search" placeholder="Buscar en la carta: jamón, atún, queso…" data-buscar>
   </label>
 
   <nav class="cats" aria-label="Secciones de la carta" data-cats></nav>
 
   <div class="menu" data-menu></div>
 
-  <p class="aviso-fin">¿Pizza mitad y mitad o sin algún ingrediente? Dínoslo en la nota del pedido. ¿Sin gluten? Pregúntanos por WhatsApp.</p>
+  <p class="aviso-fin">¿Pizza mitad y mitad, sin algún ingrediente o sin gluten? Dínoslo cuando llames y te la preparamos a tu gusto.</p>
 
 </main>
 
-<!-- carrito: pantalla completa en móvil, columna fija en ordenador -->
-<aside class="carrito" data-carrito aria-label="Tu pedido">
-  <div class="carrito-cab">
-    <button type="button" class="redondo solo-movil" data-cerrar-carrito aria-label="Volver a la carta">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg>
-    </button>
-    <h2>Tu pedido</h2>
-  </div>
-  <div class="carrito-cuerpo">
-    <div class="vacio" data-vacio>
-      <span class="vacio-icono" aria-hidden="true">🍕</span>
-      <b>Tu pedido está vacío</b>
-      <p>Añade pizzas, focaccias o lo que te apetezca de la carta.</p>
-    </div>
-    <ul class="lineas" data-lineas></ul>
-    <button type="button" class="mas-cosas solo-movil" data-cerrar-carrito>+ Añadir más cosas</button>
-
-    <div class="bloque" data-datos>
-      <h3>Entrega</h3>
-      <div class="segmento segmento-claro" role="radiogroup" aria-label="Cómo lo quieres">
-        <button type="button" data-modo="domicilio" aria-pressed="true">A domicilio</button>
-        <button type="button" data-modo="recoger" aria-pressed="false">Para recoger</button>
-      </div>
-      <label class="campo" data-dir-wrap><span>Dirección de entrega</span><input data-f="dir" placeholder="Calle, número, piso y puerta" autocomplete="street-address"></label>
-      <p class="nota-envio" data-nota-envio></p>
-      <p class="nota-envio" data-nota-recoger hidden>Recógelo en <b>Rúa San Mauro, 29</b>. Te avisamos cuando esté listo.</p>
-      <div class="dos">
-        <label class="campo"><span>Nombre</span><input data-f="nombre" placeholder="Tu nombre" autocomplete="given-name"></label>
-        <label class="campo"><span>Teléfono</span><input data-f="tel" type="tel" inputmode="tel" placeholder="6XX XXX XXX" autocomplete="tel"></label>
-      </div>
-      <label class="campo"><span>¿Para cuándo?</span><select data-f="hora"></select></label>
-    </div>
-
-    <div class="bloque" data-pago-bloque>
-      <h3>¿Cómo pagarás al repartidor?</h3>
-      <p class="pago-nota"><span aria-hidden="true">🤝</span><span><b>No pagas nada ahora.</b> Pagas cuando te llegue el pedido, como siempre.</span></p>
-      <div class="pagos" role="radiogroup" aria-label="Forma de pago" data-pagos></div>
-      <label class="campo" data-cambio-wrap><span>¿Con cuánto pagas? <small>para llevar el cambio</small></span><input data-f="cambio" inputmode="decimal" placeholder="Ej.: 50 €"></label>
-    </div>
-
-    <div class="bloque" data-pago-local hidden>
-      <h3>Pago</h3>
-      <p class="pago-nota"><span aria-hidden="true">🤝</span><span><b>No pagas nada ahora.</b> Pagas en el local al recogerlo, en efectivo o con tarjeta.</span></p>
-    </div>
-
-    <div class="bloque">
-      <label class="campo"><span>Nota para el restaurante <small>(opcional)</small></span><input data-f="nota" placeholder="Mitad y mitad, sin aceitunas, timbre 2.º B…"></label>
-    </div>
-
-    <dl class="resumen" data-resumen>
-      <div><dt>Productos</dt><dd data-subtotal>0,00 €</dd></div>
-      <div data-fila-envio><dt>Envío</dt><dd data-envio>A confirmar</dd></div>
-      <div class="total"><dt>Total</dt><dd data-total>0,00 €</dd></div>
-    </dl>
-    <p class="aviso-precio" data-aviso-precio hidden>La pasta y las tablas no tienen precio en la carta: te lo confirmamos por WhatsApp.</p>
-  </div>
-  <div class="carrito-pie">
-    <p class="error" data-error aria-live="assertive"></p>
-    <button type="button" class="boton-pedir" data-enviar>
-      <span class="boton-pedir-txt"><span data-enviar-txt>Hacer pedido</span><small data-enviar-sub>Pagas al recibirlo</small></span><b data-total-boton>0,00 €</b>
-    </button>
-  </div>
+<!-- ordenador: tarjeta fija para llamar -->
+<aside class="col-llamar" aria-label="Pedir por teléfono">
+  <p class="script col-script">¿Te apetece?</p>
+  <h2>Llámanos y <em>te lo llevamos</em></h2>
+  <div class="llamar-dos llamar-col" data-tels></div>
+  <ul class="col-datos">
+    <li><b>Envío a domicilio:</b> <span data-envio-txt>1,20 €</span></li>
+    <li><b>Pago al repartidor:</b> <span data-pagos-txt>tarjeta o efectivo</span></li>
+    <li><b>Para recoger:</b> Rúa San Mauro, 29</li>
+  </ul>
+  <span class="dato estado" data-estado><i></i><span>Consultando horario…</span></span>
 </aside>
 </div>
 
-<!-- barra «Ver pedido» (móvil) -->
-<button type="button" class="ver-pedido" data-ver-pedido hidden>
-  <span class="ver-n" data-ver-n>0</span>
-  <span>Ver pedido</span>
-  <b data-ver-total>0,00 €</b>
-</button>
+<!-- barra fija para llamar (móvil) -->
+<nav class="barra-llamar" aria-label="Llamar para pedir">
+  <span class="barra-tit">Llama para pedir</span>
+  <div class="barra-botones" data-tels-cortos></div>
+</nav>
 
 <!-- ficha de producto -->
 <div class="velo" data-velo hidden></div>
@@ -178,47 +154,13 @@
   <div class="hoja-cuerpo">
     <h2 id="hoja-nombre" data-hoja-nombre></h2>
     <p class="hoja-desc" data-hoja-desc></p>
-    <div class="hoja-tam" data-hoja-tam>
-      <div class="hoja-tam-cab"><b>Elige el tamaño</b><span class="oblig">Obligatorio</span></div>
-      <div data-hoja-ops></div>
-    </div>
+    <div class="hoja-precios" data-hoja-precios></div>
   </div>
   <div class="hoja-pie">
-    <div class="cantidad">
-      <button type="button" data-hoja-menos aria-label="Uno menos">−</button>
-      <b data-hoja-cant>1</b>
-      <button type="button" data-hoja-mas aria-label="Uno más">+</button>
-    </div>
-    <button type="button" class="boton-anadir" data-hoja-anadir>Añadir <b data-hoja-precio></b></button>
+    <p class="hoja-pie-txt">Para pedirla, llámanos:</p>
+    <div class="llamar-dos" data-tels></div>
   </div>
 </div>
-
-<!-- seguimiento del pedido (después de pedir) -->
-<section class="seguir" data-seguir hidden aria-live="polite">
-  <div class="seguir-caja">
-    <button type="button" class="redondo seguir-cerrar" data-seguir-cerrar aria-label="Volver a la carta">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
-    </button>
-    <div class="seguir-icono" data-seguir-icono aria-hidden="true">🍕</div>
-    <p class="seguir-num" data-seguir-num></p>
-    <h2 data-seguir-tit>¡Pedido enviado!</h2>
-    <p class="seguir-sub" data-seguir-sub></p>
-    <ol class="pasos" data-pasos></ol>
-    <div class="seguir-ayuda" data-seguir-ayuda hidden>
-      <p>¿Tarda en confirmarse? Escríbenos o llámanos y lo miramos al momento.</p>
-    </div>
-    <div class="seguir-botones">
-      <a class="boton-wa" href="#" target="_blank" rel="noopener" data-seguir-wa>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/></svg>
-        <span data-seguir-wa-txt>Escribir por WhatsApp</span>
-      </a>
-      <a class="boton-linea" href="tel:+34988326321">Llamar · 988 32 63 21</a>
-    </div>
-    <p class="seguir-pie" data-seguir-pie>Puedes cerrar esta página: si vuelves a entrar, verás cómo va tu pedido.</p>
-  </div>
-</section>
-
-<div class="toast" data-toast hidden></div>
 
 <script src="datos.js" defer></script>
 <script src="pedir.js" defer></script>

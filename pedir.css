@@ -104,7 +104,7 @@ svg { fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round
 .sec-menu > .sub { margin: .2rem 0 .5rem; color: var(--tinta-2); font-size: .86rem; }
 
 /* lo más pedido: carrusel */
-.carrusel { display: flex; gap: .8rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: .6rem -16px 0; padding: 0 16px 8px; }
+.carrusel { display: flex; gap: .8rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 16px; scrollbar-width: none; margin: .6rem -16px 0; padding: 0 16px 8px; }
 .carrusel::-webkit-scrollbar { display: none; }
 .tarjeta { position: relative; flex: none; width: min(62vw, 240px); scroll-snap-align: start; text-align: left; border: 0; padding: 0 0 .7rem; background: var(--blanco); border-radius: var(--radio); box-shadow: var(--sombra-s); cursor: pointer; overflow: hidden; }
 .tarjeta-foto { position: relative; display: block; aspect-ratio: 1; background: var(--gris); }
@@ -331,3 +331,85 @@ body.con-pedido .en-curso { bottom: calc(90px + env(safe-area-inset-bottom)); }
   .en-curso, body.con-pedido .en-curso { right: auto; width: 420px; bottom: 24px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } html { scroll-behavior: auto; } }
+
+/* =========================================================
+   13-nov · CARTA + PEDIDOS POR TELÉFONO (sin carrito ni seguimiento)
+   ========================================================= */
+.llamar-dos { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-top: .9rem; }
+.boton-llamar { display: flex; align-items: center; gap: .55rem; min-height: 56px; padding: .45rem .8rem; border-radius: 16px; background: var(--tomate); color: #fff; text-decoration: none; box-shadow: 0 10px 22px -14px rgba(184,50,42,.9); transition: background .15s, transform .15s; }
+.boton-llamar:hover { background: var(--tomate-2); }
+.boton-llamar:active { transform: scale(.98); }
+.boton-llamar svg { width: 22px; height: 22px; flex: none; }
+.boton-llamar span { display: grid; line-height: 1.15; min-width: 0; }
+.boton-llamar small { font-size: .72rem; font-weight: 600; opacity: .85; }
+.boton-llamar b { font-size: 1.02rem; font-weight: 900; letter-spacing: .01em; white-space: nowrap; }
+.boton-llamar.secundario { background: var(--pizarra); box-shadow: 0 10px 22px -14px rgba(31,58,42,.9); }
+.boton-llamar.secundario:hover { background: var(--pizarra-2); }
+
+/* anuncios de la casa */
+.promos { margin-top: 1.2rem; }
+.promos-fila { display: flex; gap: .7rem; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 16px; scrollbar-width: none; padding: 0 16px 6px; }
+.promos-fila::-webkit-scrollbar { display: none; }
+.promo { position: relative; flex: none; width: min(80vw, 330px); aspect-ratio: 5 / 4; scroll-snap-align: start; border-radius: 22px; overflow: hidden; background: var(--pizarra); color: #fff; box-shadow: var(--sombra-s); }
+.promo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.promo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,14,10,0) 35%, rgba(20,14,10,.85) 100%); pointer-events: none; }
+.promo-txt { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: 1rem 1.05rem; }
+.promo-etiq { display: inline-block; padding: .16rem .55rem; border-radius: 6px; background: var(--oro); color: var(--tinta); font-size: .68rem; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; }
+.promo-etiq.roja { background: var(--tomate); color: #fff; }
+.promo h3 { margin-top: .4rem; font-family: var(--serif); font-weight: 400; font-size: 1.55rem; line-height: 1.05; text-shadow: 0 2px 12px rgba(0,0,0,.4); }
+.promo p { margin: .2rem 0 0; font-size: .85rem; opacity: .92; }
+.promo .promo-precio { font-family: var(--serif); font-size: 1.7rem; color: #f2c66b; opacity: 1; line-height: 1.1; }
+.promo-envio { background: var(--pizarra) radial-gradient(circle at 100% 0, rgba(217,164,65,.35), transparent 60%); }
+.promo-envio::after { display: none; }
+.promo-envio .promo-txt { top: 0; display: flex; flex-direction: column; justify-content: flex-end; }
+.promo-envio h3 { font-size: 1.75rem; }
+.promo-envio .promo-precio { font-size: 2.2rem; }
+
+/* precios en la carta */
+.producto { cursor: pointer; }
+.producto-precio { display: flex; flex-wrap: wrap; gap: .25rem .8rem; align-items: baseline; }
+.pr { display: inline-flex; align-items: baseline; gap: .3rem; }
+.pr i { font-style: normal; display: inline-grid; place-items: center; width: 19px; height: 19px; border-radius: 5px; background: var(--papel); color: var(--tinta-2); font-size: .68rem; font-weight: 900; transform: translateY(-1px); }
+.sec-menu > .sub b { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 5px; background: var(--papel); font-size: .66rem; }
+
+/* ficha del plato */
+.hoja-precios { margin-top: .9rem; }
+.hoja-precios .opcion { cursor: default; background: var(--fondo); box-shadow: none; }
+.hoja-precios .opcion > b { color: var(--tomate); font-size: 1.1rem; }
+.hoja-pie { flex-direction: column; align-items: stretch; gap: 0; }
+.hoja-pie-txt { margin: 0; font-size: .85rem; font-weight: 700; color: var(--tinta-2); }
+.hoja-pie .llamar-dos { margin-top: .5rem; }
+
+/* barra fija para llamar (móvil) */
+.tienda { padding-bottom: 118px; }
+.barra-llamar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; padding: .5rem 12px calc(.6rem + env(safe-area-inset-bottom)); background: var(--blanco); box-shadow: 0 -10px 30px -18px rgba(35,26,20,.55), 0 -1px 0 var(--linea); }
+.barra-tit { display: block; margin-bottom: .4rem; text-align: center; font-size: .76rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--tinta-2); }
+.barra-botones { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+.barra-botones .boton-llamar { justify-content: center; min-height: 50px; }
+
+/* columna de ordenador */
+.col-llamar { display: none; }
+
+@media (max-width: 359px) {
+  .boton-llamar { padding-inline: .6rem; gap: .4rem; }
+  .boton-llamar b { font-size: .92rem; }
+}
+
+@media (min-width: 960px) {
+  .tienda { padding-bottom: 3rem; }
+  .barra-llamar { display: none; }
+  .ficha .llamar-dos { max-width: 520px; }
+  .promos-fila { padding-inline: 0; }
+  .promo { width: 300px; }
+  .col-llamar { display: block; position: sticky; top: calc(var(--top-h) + 20px); padding: 1.6rem 1.5rem; border-radius: 24px; background: var(--pizarra); color: #fff; box-shadow: var(--sombra); }
+  .col-script { margin: 0; font-family: var(--script); font-size: 1.7rem; color: #f2c66b; line-height: 1; }
+  .col-llamar h2 { margin-top: .3rem; font-family: var(--serif); font-weight: 400; font-size: 2rem; }
+  .col-llamar h2 em { color: var(--oro); }
+  .llamar-col { grid-template-columns: 1fr; margin-top: 1.1rem; }
+  .llamar-col .boton-llamar { min-height: 64px; }
+  .llamar-col .boton-llamar b { font-size: 1.3rem; }
+  .llamar-col .boton-llamar.secundario { background: rgba(255,255,255,.1); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.25); }
+  .col-datos { list-style: none; margin: 1.2rem 0 1rem; padding: 0; display: grid; gap: .45rem; font-size: .92rem; color: #dbe5de; }
+  .col-datos b { color: #fff; }
+  .col-llamar .dato { background: rgba(255,255,255,.1); color: #fff; }
+}

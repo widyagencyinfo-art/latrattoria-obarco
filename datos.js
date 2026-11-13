@@ -1,10 +1,16 @@
 /* La Trattoria · datos comunes de la portada (index.html) y de los pedidos (pedir.html):
    carta, horario, reparto y WhatsApp. Si cambia un precio o el horario, se cambia SOLO aquí. */
-const WA = '34667754998'; // ⚠️ confirmar con Alfredo a qué número quiere los pedidos y reservas
+const WA = '34667754998'; // WhatsApp solo para reservas y celebraciones; los PEDIDOS son por llamada (13-nov)
 
-/* ---------- reparto a domicilio · ⚠️ confirmar con Alfredo ----------
+/* ---------- teléfonos para pedir (13-nov: Alfredo quiere los pedidos SOLO por llamada) ---------- */
+const TELS = [
+  { n: '988 32 63 21', tel: '+34988326321', tipo: 'Fijo' },
+  { n: '667 75 49 98', tel: '+34667754998', tipo: 'Móvil' },
+];
+
+/* ---------- reparto a domicilio (13-nov: envío 1,20 €; el repartidor cobra con tarjeta o en efectivo) ----------
    envio: gastos de envío en € (null = «te lo confirmamos») · minimo: pedido mínimo en € (null = sin mínimo) */
-const DOMICILIO = { zona: 'O Barco de Valdeorras', envio: null, minimo: null, pagos: ['Efectivo', 'Tarjeta', 'Bizum'] };
+const DOMICILIO = { zona: 'O Barco de Valdeorras', envio: 1.2, minimo: null, pagos: ['Tarjeta', 'Efectivo'] };
 
 /* ---------- pedidos online: se guardan en la base de datos de Widy y Alfredo los ve en panel.html ----------
    La clave es la pública (solo deja crear pedidos y seguirlos; el resto pide el PIN del panel). */
@@ -72,7 +78,7 @@ function estado() {
 
 /* ---------- carta ----------
    Precios e ingredientes: su carta actual (foto que mandó Alfredo el 14-oct-2026).
-   p: null = plato sin precio en la carta → se pide igual y el precio se confirma por WhatsApp. */
+   p: null = plato sin precio en la carta → se pregunta al llamar. */
 const CATS = [
   { id: 'pizzas', nombre: 'Pizzas', nota: 'Mediana · Familiar' },
   { id: 'focaccias', nombre: 'Focaccias', nota: 'La especialidad' },
@@ -115,8 +121,8 @@ const CARTA = [
   { c: 'focaccias', n: 'Focaccia nuggets', d: 'Mozzarella, tomate y nuggets. La de los peques.', p: 15, img: null },
   { c: 'focaccias', n: 'Focaccia carbonara', d: 'Mozzarella, tomate, beicon, parmigiano y nata.', p: 17, img: null },
   { c: 'pastas', n: 'Gnocchi con burrata', d: 'Pesto genovés, tomate italiano y burrata cremosa en el centro.', p: null, img: 'gnocchi-burrata', t: ['Novedad'] },
-  { c: 'pastas', n: 'Spaghetti carbonara', d: 'Con beicon y lluvia de parmigiano.', p: null, img: 'spaghetti-carbonara' },
-  { c: 'pastas', n: 'Spaghetti boloñesa', d: 'Con nuestra salsa boloñesa.', p: null, img: null },
+  { c: 'pastas', n: 'Spaghetti carbonara', d: 'Con beicon y lluvia de parmigiano.', p: 11, img: 'spaghetti-carbonara' },
+  { c: 'pastas', n: 'Spaghetti boloñesa', d: 'Con nuestra salsa boloñesa.', p: 11, img: null },
   { c: 'pastas', n: 'Lasaña', d: 'Cremosa, tradicional e irresistible.', p: null, img: null },
   { c: 'tablas', n: 'Tabla de embutidos', d: 'Perfecta para compartir.', p: null, img: null },
   { c: 'tablas', n: 'Tabla de quesos', d: 'Perfecta para compartir.', p: null, img: null },

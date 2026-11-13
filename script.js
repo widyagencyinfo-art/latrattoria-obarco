@@ -85,7 +85,7 @@
         cartaEl.appendChild(el);
       });
     });
-    if (!total) cartaEl.innerHTML = `<p class="vacio">No encontramos «${busca}». Escríbenos por WhatsApp: combinamos ingredientes a tu gusto.</p>`;
+    if (!total) cartaEl.innerHTML = `<p class="vacio">No encontramos «${busca}». Llámanos al 988 32 63 21: combinamos ingredientes a tu gusto.</p>`;
   }
   $('[data-buscar]').addEventListener('input', (e) => { busca = e.target.value; pintarCarta(); });
 

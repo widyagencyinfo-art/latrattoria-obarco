@@ -415,3 +415,5 @@ input.error { border-color: var(--tomate); background: #fff1ee; }
 .celebra-in { padding: 4.5rem 0; }
 .local-solo { grid-template-columns: 1fr; }
 .local-solo .local-txt { grid-column: 1 / -1; grid-row: auto; padding-top: 0; max-width: 46rem; }
+/* 13-nov: dos teléfonos en los datos → la dirección ocupa la fila entera */
+.datos a:first-child { grid-column: 1 / -1; }
